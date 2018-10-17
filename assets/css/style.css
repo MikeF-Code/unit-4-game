@@ -7,3 +7,7 @@ body {
 div {
     width: 100%;
 }
+
+.charSel {
+    display: inline-block;
+}

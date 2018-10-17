@@ -9,6 +9,7 @@ var QGJ = {
     // Alive/Dead
     dead: false,
     enemyIndex: -1,
+    charID: 0,
 }
 
 var yoda = {
@@ -21,6 +22,7 @@ var yoda = {
     // Alive/Dead
     dead: false,
     enemyIndex: -1,
+    charID: 1,
 }
 
 var KAM = {
@@ -33,6 +35,7 @@ var KAM = {
     // Alive/Dead
     dead: false,
     enemyIndex: -1,
+    charID: 2,
 }
 
 var plo = {
@@ -45,6 +48,7 @@ var plo = {
     // Alive/Dead
     dead: false,
     enemyIndex: -1,
+    charID: 3,
 }
 // Globals
 var characterArray = [QGJ, yoda, KAM, plo];
@@ -64,7 +68,8 @@ function gameStart() {
     for (var i=0; i < characterArray.length; i++) {
         var character = $("<div>");
         character.addClass("col-2 border charSel");
-        character.text(characterArray[i].name);
+        character.html("<span id="+characterArray[i].name+">"+characterArray[i].name+"</span>");
+        character.attr("data-charID", i);
         console.log("Outputting name " + characterArray[i].name + " to #characterSelect.");
         $("#characterSelect").append(character);
       };
@@ -75,15 +80,41 @@ function gameStart() {
 gameStart();
 
     // Character Select - after player clicks on the character of their choosing, have the character select div disappear and display the player vs enemy UI in its place
-$(".charSel").on("click", function() {
+$("#characterSelect").on("click", ".charSel", function() {
     console.log("Character select on-click function is firing!");
-    $("#characterSelect").hide();
-    $("#playerSelect").show();
-    $("#enemySelect").show();
-    var debugThis = $(this);
-    console.log("Current value of THIS is: ");
-    console.log(debugThis);
-    playerCharID = $.inArray($(this), characterArray);
+    // UI change from character select to enemy select
+    $("#characterSelect").hide(1000);
+    $("#chooseChar").hide(1000);
+    $("#playerSelect").show(700);
+    $("#enemySelect").show(700);
+    // Identify selected character object and store index of object and object itself to global variables
+    playerCharID = $(this).attr("data-charID");
     console.log("Current value of playerCharID is "+playerCharID);
     playerChar = characterArray[playerCharID];
+    console.log("playerChar is: ");
+    console.log(playerChar);
+    console.log("playerChar.name is: "+playerChar.name);
+    console.log("-------------------");
+    // Inject HTML to page to show your selected character
+    var playerSelect = $(".playerSel");
+    playerSelect.addClass("border");
+    playerSelect.html("<span id="+playerChar.name+">"+playerChar.name+"</span>");
+    $("#playerSelect").append(playerSelect);
+    // Update `enemies` array with list of character objects that was NOT selected
+    enemies = characterArray;
+    enemies.splice(playerCharID, 1);
+    console.log("Current enemies array:");
+    console.log(enemies);
+    console.log("----------------");
+    // Inject HTML to page to show enemy select
+    for (var i = 0; i < enemies.length; i++) {
+        var enemy = $("<div>");
+        enemy.addClass("col-2 border enemySel");
+        enemy.html("<span id="+enemies[i].name+">"+enemies[i].name+"</span>");
+        enemy.attr("data-enemyID", i);
+        console.log("Outputting name " + enemies[i].name + " to #enemySelect.");
+        $("#enemy"+i).append(enemy);
+    };
+    
+
 });
