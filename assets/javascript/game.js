@@ -59,10 +59,9 @@ var currentEnemyID = -1;
 
 //Functions
 
-    // Game Start
+    // Game Start function
 function gameStart() {
     console.log("gameStart() begins");
-    console.log("------------------");
     $("#playerSelect").hide();
     $("#enemySelect").hide();
     for (var i=0; i < characterArray.length; i++) {
@@ -74,8 +73,8 @@ function gameStart() {
         $("#characterSelect").append(character);
       };
       console.log("gameStart() ends");
+      console.log("------------------");
 };
-
 // Game logic
 gameStart();
 
@@ -83,10 +82,10 @@ gameStart();
 $("#characterSelect").on("click", ".charSel", function() {
     console.log("Character select on-click function is firing!");
     // UI change from character select to enemy select
-    $("#characterSelect").hide(1000);
-    $("#chooseChar").hide(1000);
-    $("#playerSelect").show(700);
-    $("#enemySelect").show(700);
+    $("#characterSelect").hide(900);
+    $("#chooseChar").hide(900);
+    $("#playerSelect").show(1200);
+    $("#enemySelect").show(1200);
     // Identify selected character object and store index of object and object itself to global variables
     playerCharID = $(this).attr("data-charID");
     console.log("Current value of playerCharID is "+playerCharID);
@@ -109,12 +108,23 @@ $("#characterSelect").on("click", ".charSel", function() {
     // Inject HTML to page to show enemy select
     for (var i = 0; i < enemies.length; i++) {
         var enemy = $("<div>");
-        enemy.addClass("col-2 border enemySel");
+        enemy.addClass("border enemySel");
         enemy.html("<span id="+enemies[i].name+">"+enemies[i].name+"</span>");
         enemy.attr("data-enemyID", i);
         console.log("Outputting name " + enemies[i].name + " to #enemySelect.");
         $("#enemy"+i).append(enemy);
     };
-    
-
+    console.log("Character select on-click function complete.")
+    console.log("------------------------");
 });
+    // Enemy Select - After character is chosen, user selects 1 of 3 enemies to fight.  Once enemy is selected, other enemies should become translucent and unclickable until current enemy is defeated.
+if (currentEnemyID === -1) {
+    $("#enemySelect").on("click", ".enemySel", function() {
+    console.log("Enemy select on-click function is firing!");
+    currentEnemyID = $(this).attr("data-enemyID");
+    console.log("currentEnemyID is now: "+currentEnemyID);
+    $("#enemy"+currentEnemyID).animate({ background: "red" }, 1000);
+    });
+    } else {
+        
+    }
