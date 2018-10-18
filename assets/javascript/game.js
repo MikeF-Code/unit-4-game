@@ -33,7 +33,7 @@ var KAM = {
     baseatk: 8,
     atk: 8,
     // Counter Attack value
-    ca: 10,
+    ca: 5,
     // Character's picture
     // Alive/Dead
     dead: false,
@@ -71,7 +71,7 @@ function gameStart() {
     for (var i=0; i < characterArray.length; i++) {
         var character = $("<div>");
         character.addClass("col-2 border charSel");
-        character.html("<span id="+characterArray[i].name+">"+characterArray[i].name+"</span>");
+        character.html("<span id="+characterArray[i].name+">"+characterArray[i].name+"</span><br><span>HP: "+characterArray[i].hp+"</span>");
         character.attr("data-charID", i);
         console.log("Outputting name " + characterArray[i].name + " to #characterSelect.");
         $("#characterSelect").append(character);
@@ -101,7 +101,7 @@ $("#characterSelect").on("click", ".charSel", function() {
     // Inject HTML to page to show your selected character
     var playerSelect = $(".playerSel");
     playerSelect.addClass("border");
-    playerSelect.html("<span id="+playerChar.name+">"+playerChar.name+"</span>");
+    playerSelect.html("<span id="+playerChar.name+">"+playerChar.name+"</span><br><span>HP: "+playerChar.hp+"</span>");
     $("#playerSelect").append(playerSelect);
     // Update `enemies` array with list of character objects that was NOT selected
     enemies = characterArray;
@@ -113,7 +113,7 @@ $("#characterSelect").on("click", ".charSel", function() {
     for (var i = 0; i < enemies.length; i++) {
         var enemy = $("<div>");
         enemy.addClass("border enemySel");
-        enemy.html("<span id="+enemies[i].name+">"+enemies[i].name+"</span>");
+        enemy.html("<span id="+enemies[i].name+">"+enemies[i].name+"</span><br><span>HP: "+enemies[i].hp+"</span>");
         enemy.attr("data-enemyID", i);
         console.log("Outputting name " + enemies[i].name + " to #enemySelect.");
         $("#enemy"+i).append(enemy);
@@ -122,33 +122,39 @@ $("#characterSelect").on("click", ".charSel", function() {
     console.log("------------------------");
 });
     // Enemy Select - After character is chosen, user selects 1 of 3 enemies to fight.  Once enemy is selected, other enemies should become translucent and unclickable until current enemy is defeated.
-if (currentEnemyID === -1) {
-    $("#enemySelect").on("click", ".enemySel", function() {
-    console.log("Enemy select on-click function is firing!");
-    currentEnemyID = $(this).attr("data-enemyID");
-    console.log("currentEnemyID is now: "+currentEnemyID);
-    currentEnemyID = parseInt(currentEnemyID);
-    console.log("currentEnemyID's variable type is: "); 
-    console.log(typeof currentEnemyID);
-    $("#enemy"+currentEnemyID).animate({ background: "red" }, 1000);
+$("#enemySelect").on("click", ".enemySel", function() {
+    if (currentEnemyID === -1) {
+        console.log("Enemy select on-click function is firing!");
+        currentEnemyID = $(this).attr("data-enemyID");
+        console.log("currentEnemyID is now: "+currentEnemyID);
+        currentEnemyID = parseInt(currentEnemyID);
+        console.log("currentEnemyID's variable type is: "); 
+        console.log(typeof currentEnemyID);
+        $("#enemy"+currentEnemyID).animate({ background: "red" }, 1000);
+        } else {
+
+        }
     });
-    } else {
-
-    }
-
     // Attack Button functionality
-if (currentEnemyID >= 0 && enemies[currentEnemyID].hp > 0) {
-    $("#attackButton").click( function() {
+$("#attackButton").click( function() {
+    if (currentEnemyID >= 0 && enemies[currentEnemyID].hp > 0) {
         enemies[currentEnemyID].hp = enemies[currentEnemyID].hp - playerChar.atk;
         playerChar.hp = playerChar.hp - enemies[currentEnemyID].ca;
         console.log("Player has HP of "+playerChar.hp);
+        $(".playerSel").html("<span id="+playerChar.name+">"+playerChar.name+"</span><br><span>HP: "+playerChar.hp+"</span>");
         console.log("Current enemy "+enemies[currentEnemyID].name+" has HP of "+enemies[currentEnemyID].hp);
+        $("#enemy"+currentEnemyID).html("<span id="+enemies[currentEnemyID].name+">"+enemies[currentEnemyID].name+"</span><br><span>HP: "+enemies[currentEnemyID].hp+"</span>");
         $("#combatData").html("<span>You attacked for "+playerChar.atk+" points of damage!</span><br><span>"+enemies[currentEnemyID].name+" counter attacks for "+enemies[currentEnemyID].ca+" points of damage!</span>");
         playerChar.atk = playerChar.atk + playerChar.baseatk;
         console.log("Updated Player atk value to "+playerChar.atk);
-    });
-} else {
-    $("#attackButton").click( function() {
-    alert("Please select a living enemy to fight!");
-    });
-}
+        if (enemies[currentEnemyID].hp <= 0) {
+            console.log(enemies[currentEnemyID].name+" is defeated!");
+            $("#enemy"+currentEnemyID).hide(400);
+            currentEnemyID = -1;
+        }
+    } else {
+        $("#attackButton").click( function() {
+        alert("Please select a living enemy to fight!");
+        });
+    }
+});
