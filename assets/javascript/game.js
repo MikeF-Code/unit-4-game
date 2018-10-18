@@ -7,8 +7,6 @@ var QGJ = {
     // Counter Attack value
     ca: 10,
     // Character's picture
-    // Alive/Dead
-    dead: false,
     enemyIndex: -1,
     charID: 0,
 }
@@ -16,13 +14,11 @@ var QGJ = {
 var yoda = {
     name: "Yoda",
     hp: 100,
-    baseatk: 15,
-    atk: 15,
+    baseatk: 10,
+    atk: 10,
     // Counter Attack value
     ca: 15,
     // Character's picture
-    // Alive/Dead
-    dead: false,
     enemyIndex: -1,
     charID: 1,
 }
@@ -33,10 +29,8 @@ var KAM = {
     baseatk: 8,
     atk: 8,
     // Counter Attack value
-    ca: 5,
+    ca: 8,
     // Character's picture
-    // Alive/Dead
-    dead: false,
     enemyIndex: -1,
     charID: 2,
 }
@@ -47,10 +41,8 @@ var plo = {
     baseatk: 5,
     atk: 5,
     // Counter Attack value
-    ca: 20,
+    ca: 15,
     // Character's picture
-    // Alive/Dead
-    dead: false,
     enemyIndex: -1,
     charID: 3,
 }
@@ -130,7 +122,7 @@ $("#enemySelect").on("click", ".enemySel", function() {
         currentEnemyID = parseInt(currentEnemyID);
         console.log("currentEnemyID's variable type is: "); 
         console.log(typeof currentEnemyID);
-        $("#enemy"+currentEnemyID).animate({ background: "red" }, 1000);
+        $("#enemy"+currentEnemyID).addClass("border bg-danger");
         } else {
 
         }
@@ -138,15 +130,21 @@ $("#enemySelect").on("click", ".enemySel", function() {
     // Attack Button functionality
 $("#attackButton").click( function() {
     if (currentEnemyID >= 0 && enemies[currentEnemyID].hp > 0) {
+        // Recalculate enemy and player HP
         enemies[currentEnemyID].hp = enemies[currentEnemyID].hp - playerChar.atk;
         playerChar.hp = playerChar.hp - enemies[currentEnemyID].ca;
         console.log("Player has HP of "+playerChar.hp);
+        // Redraw player element to show updated HP value
         $(".playerSel").html("<span id="+playerChar.name+">"+playerChar.name+"</span><br><span>HP: "+playerChar.hp+"</span>");
         console.log("Current enemy "+enemies[currentEnemyID].name+" has HP of "+enemies[currentEnemyID].hp);
+        // Redraw selected enemy element to show updated HP value
+        $("#enemy"+currentEnemyID).addClass("border")
         $("#enemy"+currentEnemyID).html("<span id="+enemies[currentEnemyID].name+">"+enemies[currentEnemyID].name+"</span><br><span>HP: "+enemies[currentEnemyID].hp+"</span>");
         $("#combatData").html("<span>You attacked for "+playerChar.atk+" points of damage!</span><br><span>"+enemies[currentEnemyID].name+" counter attacks for "+enemies[currentEnemyID].ca+" points of damage!</span>");
+        // Recalculate player ATK value
         playerChar.atk = playerChar.atk + playerChar.baseatk;
         console.log("Updated Player atk value to "+playerChar.atk);
+        // If enemy HP is less than 0, hide the element and reset currentEnemyID to force player to select new enemy and prevent further combat with "dead" enemy
         if (enemies[currentEnemyID].hp <= 0) {
             console.log(enemies[currentEnemyID].name+" is defeated!");
             $("#enemy"+currentEnemyID).hide(400);
