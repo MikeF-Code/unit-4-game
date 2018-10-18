@@ -2,6 +2,7 @@
 var QGJ = {
     name: "Qui-Gon Jinn",
     hp: 120,
+    baseatk: 10,
     atk: 10,
     // Counter Attack value
     ca: 10,
@@ -15,6 +16,7 @@ var QGJ = {
 var yoda = {
     name: "Yoda",
     hp: 100,
+    baseatk: 15,
     atk: 15,
     // Counter Attack value
     ca: 15,
@@ -28,6 +30,7 @@ var yoda = {
 var KAM = {
     name: "Ki-Adi Mundi",
     hp: 110,
+    baseatk: 8,
     atk: 8,
     // Counter Attack value
     ca: 10,
@@ -41,6 +44,7 @@ var KAM = {
 var plo = {
     name: "Plo Koon",
     hp: 140,
+    baseatk: 5,
     atk: 5,
     // Counter Attack value
     ca: 20,
@@ -123,8 +127,28 @@ if (currentEnemyID === -1) {
     console.log("Enemy select on-click function is firing!");
     currentEnemyID = $(this).attr("data-enemyID");
     console.log("currentEnemyID is now: "+currentEnemyID);
+    currentEnemyID = parseInt(currentEnemyID);
+    console.log("currentEnemyID's variable type is: "); 
+    console.log(typeof currentEnemyID);
     $("#enemy"+currentEnemyID).animate({ background: "red" }, 1000);
     });
     } else {
-        
+
     }
+
+    // Attack Button functionality
+if (currentEnemyID >= 0 && enemies[currentEnemyID].hp > 0) {
+    $("#attackButton").click( function() {
+        enemies[currentEnemyID].hp = enemies[currentEnemyID].hp - playerChar.atk;
+        playerChar.hp = playerChar.hp - enemies[currentEnemyID].ca;
+        console.log("Player has HP of "+playerChar.hp);
+        console.log("Current enemy "+enemies[currentEnemyID].name+" has HP of "+enemies[currentEnemyID].hp);
+        $("#combatData").html("<span>You attacked for "+playerChar.atk+" points of damage!</span><br><span>"+enemies[currentEnemyID].name+" counter attacks for "+enemies[currentEnemyID].ca+" points of damage!</span>");
+        playerChar.atk = playerChar.atk + playerChar.baseatk;
+        console.log("Updated Player atk value to "+playerChar.atk);
+    });
+} else {
+    $("#attackButton").click( function() {
+    alert("Please select a living enemy to fight!");
+    });
+}
