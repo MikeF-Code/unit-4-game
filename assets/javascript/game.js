@@ -7,6 +7,7 @@ var QGJ = {
     // Counter Attack value
     ca: 10,
     // Character's picture
+    pic: "./assets/images/qgj.png",
     enemyIndex: -1,
     charID: 0,
 }
@@ -19,6 +20,7 @@ var yoda = {
     // Counter Attack value
     ca: 15,
     // Character's picture
+    pic: "./assets/images/yoda.png",
     enemyIndex: -1,
     charID: 1,
 }
@@ -31,6 +33,7 @@ var KAM = {
     // Counter Attack value
     ca: 8,
     // Character's picture
+    pic: "./assets/images/kam.png",
     enemyIndex: -1,
     charID: 2,
 }
@@ -43,6 +46,7 @@ var plo = {
     // Counter Attack value
     ca: 15,
     // Character's picture
+    pic: "./assets/images/plo.png",
     enemyIndex: -1,
     charID: 3,
 }
@@ -63,7 +67,7 @@ function gameStart() {
     for (var i=0; i < characterArray.length; i++) {
         var character = $("<div>");
         character.addClass("col-2 border charSel");
-        character.html("<span id="+characterArray[i].name+">"+characterArray[i].name+"</span><br><span>HP: "+characterArray[i].hp+"</span>");
+        character.html("<span id="+characterArray[i].name+">"+characterArray[i].name+"</span><br><img src="+characterArray[i].pic+" class='mx-auto' alt="+characterArray[i].name+"><br><span>HP: "+characterArray[i].hp+"</span>");
         character.attr("data-charID", i);
         console.log("Outputting name " + characterArray[i].name + " to #characterSelect.");
         $("#characterSelect").append(character);
