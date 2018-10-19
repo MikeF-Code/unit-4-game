@@ -95,10 +95,10 @@ $("#characterSelect").on("click", ".charSel", function() {
     
     // UI change from character select to enemy select
     
-    $("#characterSelect").hide(900);
-    $("#chooseChar").hide(900);
-    $("#playerSelect").show(1200);
-    $("#enemySelect").show(1200);
+    $("#characterSelect").hide(800);
+    $("#chooseChar").hide(800);
+    $("#playerSelect").show(500);
+    $("#enemySelect").show(500);
     
     // Identify selected character object and store index of object and object itself to global variables
     
@@ -174,13 +174,13 @@ $("#attackButton").click( function() {
         
         // Redraw player element to show updated HP value
         
-        $(".playerSel").html("<span id="+playerChar.name+">"+playerChar.name+"</span><br><span>HP: "+playerChar.hp+"</span>");
+        $(".playerSel").html("<span id="+playerChar.name+">"+playerChar.name+"</span><br><img src="+playerChar.pic+" class='img-fluid' alt="+playerChar.name+"><br><span>HP: "+playerChar.hp+"</span>");
         console.log("Current enemy "+enemies[currentEnemyID].name+" has HP of "+enemies[currentEnemyID].hp);
         
         // Redraw selected enemy element to show updated HP value
         
         $("#enemy"+currentEnemyID).addClass("border")
-        $("#enemy"+currentEnemyID).html("<span id="+enemies[currentEnemyID].name+">"+enemies[currentEnemyID].name+"</span><br><span>HP: "+enemies[currentEnemyID].hp+"</span>");
+        $("#enemy"+currentEnemyID).html("<span id="+enemies[currentEnemyID].name+">"+enemies[currentEnemyID].name+"</span><br><img src="+enemies[currentEnemyID].pic+" class='img-fluid' alt="+playerChar.name+"><br><span>HP: "+enemies[currentEnemyID].hp+"</span>");
         $("#combatData").html("<span>You attacked for "+playerChar.atk+" points of damage!</span><br><span>"+enemies[currentEnemyID].name+" counter attacks for "+enemies[currentEnemyID].ca+" points of damage!</span>");
         
         // Recalculate player ATK value

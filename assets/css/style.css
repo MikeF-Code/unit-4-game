@@ -3,7 +3,6 @@ body {
     margin-left: 40px;
     margin-right: 40px;
     background: url("../images/background.png");
-    background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;
     background-color: #000000;
@@ -11,15 +10,14 @@ body {
 }
 
 h1,
-h2 {
+h2,
+#combatData {
     font-family: 'Geostar Fill', cursive;
 }
 
 div {
     width: 100%;
 }
-
-.char {}
 
 #chooseChar {
     display: inline;
@@ -31,7 +29,6 @@ div {
 .charSel {
     display: inline-block;
 }
-
 
 
 
