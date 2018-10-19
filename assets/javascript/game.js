@@ -74,8 +74,8 @@ function gameStart() {
     $("#enemySelect").hide();
     for (var i=0; i < characterArray.length; i++) {
         var character = $("<div>");
-        character.addClass("col-2 border charSel");
-        character.html("<span id="+characterArray[i].name+">"+characterArray[i].name+"</span><br><img src="+characterArray[i].pic+" class='mx-auto' alt="+characterArray[i].name+"><br><span>HP: "+characterArray[i].hp+"</span>");
+        character.addClass("col-2 charSel");
+        character.html("<span id="+characterArray[i].name+">"+characterArray[i].name+"</span><br><img class='img-fluid' src="+characterArray[i].pic+" class='mx-auto' alt="+characterArray[i].name+"><br><span>HP: "+characterArray[i].hp+"</span>");
         character.attr("data-charID", i);
         console.log("Outputting name " + characterArray[i].name + " to #characterSelect.");
         $("#characterSelect").append(character);
@@ -113,8 +113,7 @@ $("#characterSelect").on("click", ".charSel", function() {
     // Inject HTML to page to show your selected character
     
     var playerSelect = $(".playerSel");
-    playerSelect.addClass("border");
-    playerSelect.html("<span id="+playerChar.name+">"+playerChar.name+"</span><br><img src="+playerChar.pic+" class='mx-auto' alt="+playerChar.name+"><br><span>HP: "+playerChar.hp+"</span>");
+    playerSelect.html("<span id="+playerChar.name+">"+playerChar.name+"</span><br><img src="+playerChar.pic+" class='img-fluid' alt="+playerChar.name+"><br><span>HP: "+playerChar.hp+"</span>");
     $("#playerSelect").append(playerSelect);
     
     // Update `enemies` array with list of character objects that was NOT selected
@@ -129,8 +128,8 @@ $("#characterSelect").on("click", ".charSel", function() {
     
     for (var i = 0; i < enemies.length; i++) {
         var enemy = $("<div>");
-        enemy.addClass("border enemySel");
-        enemy.html("<span id="+enemies[i].name+">"+enemies[i].name+"</span><br><br><img src="+enemies[i].pic+" class='mx-auto' alt="+enemies[i].name+"><span>HP: "+enemies[i].hp+"</span>");
+        enemy.addClass("enemySel");
+        enemy.html("<span id="+enemies[i].name+">"+enemies[i].name+"</span><br><br><img src="+enemies[i].pic+" class='img-fluid' alt="+enemies[i].name+"><span>HP: "+enemies[i].hp+"</span>");
         enemy.attr("data-enemyID", i);
         console.log("Outputting name " + enemies[i].name + " to #enemySelect.");
         $("#enemy"+i).append(enemy);
@@ -154,7 +153,9 @@ $("#enemySelect").on("click", ".enemySel", function() {
 
         }
     });
+
     // Attack Button functionality
+
 $("#attackButton").click( function() {
     if (currentEnemyID >= 0 && enemies[currentEnemyID].hp > 0) {
         
