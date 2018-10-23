@@ -63,6 +63,7 @@ var playerChar;
 var playerCharID = -1;
 var enemies = [];
 var currentEnemyID = -1;
+var lose = false;
 
 //Functions
 
@@ -95,10 +96,10 @@ $("#characterSelect").on("click", ".charSel", function() {
     
     // UI change from character select to enemy select
     
-    $("#characterSelect").hide(800);
-    $("#chooseChar").hide(800);
-    $("#playerSelect").show(500);
-    $("#enemySelect").show(500);
+    $("#characterSelect").hide(600);
+    $("#chooseChar").hide(600);
+    $("#playerSelect").show(700);
+    $("#enemySelect").show(700);
     
     // Identify selected character object and store index of object and object itself to global variables
     
@@ -118,7 +119,7 @@ $("#characterSelect").on("click", ".charSel", function() {
     
     // Update `enemies` array with list of character objects that was NOT selected
     
-    enemies = characterArray;
+    enemies = characterArray.slice();
     enemies.splice(playerCharID, 1);
     console.log("Current enemies array:");
     console.log(enemies);
@@ -170,6 +171,7 @@ $("#attackButton").click( function() {
         if (playerChar.hp <= 0) {
             alert("You lose!  Reload the page to try again!");
             $("#attackButton").off("click");
+            lose = true;
         }
         
         // Redraw player element to show updated HP value
@@ -199,7 +201,7 @@ $("#attackButton").click( function() {
 
             // Check win state
 
-            if (enemies[0].isDead === true && enemies[1].isDead === true && enemies[2].isDead === true) {
+            if (enemies[0].isDead === true && enemies[1].isDead === true && enemies[2].isDead === true && lose === false) {
                 alert("You win!  Reload the page to start a new game!");
             }
             else {
